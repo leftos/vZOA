@@ -21,8 +21,8 @@ for file in os.listdir(profiles_dir):
         try:
             with open(profile_path, 'r', encoding="utf8") as f:
                 data = json.load(f)
-                # maximize the Flight Plan Editor window so that it unhides itself
-                data["FlightPlanEditorSettings"]["WindowSettings"]["IsMaximized"] = True
+                # move the flight plan editor window to the top left corner of the primary monitor
+                data["FlightPlanEditorSettings"]["WindowSettings"]["Bounds"] = "0,0," + str.join(",", data["FlightPlanEditorSettings"]["WindowSettings"]["Bounds"].split(",")[2:])
         except json.JSONDecodeError as e:
             print(f"Failed to parse the json file: {e}")
             os.system("pause")
@@ -32,7 +32,7 @@ for file in os.listdir(profiles_dir):
                 with open(profile_path, 'w', encoding="utf8") as f:
                     json.dump(data, f, indent=2)
                     f.truncate()
-                    print(f"Maximized the Flight Plan Editor window in {profile_path}")
+                    print(f"Reset the Flight Plan Editor window location in {profile_path}")
             except Exception as e:
                 print(f"Failed to write the json file: {e}")
         break
